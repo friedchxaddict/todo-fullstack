@@ -8,10 +8,9 @@ function App() {
   useEffect(() => {
     async function respond() {
       const response = await fetch('http://localhost:3000');
-      console.log(response);
-      const message = await response.json();
-
-      setMessage(message);
+      const message2 = await response.json();
+      console.log(message2);
+      setMessage(message2);
     }
 
     respond();
