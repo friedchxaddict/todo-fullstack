@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('');
+  //const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    async function respond() {
-      const response = await fetch('http://localhost:3000');
-      const message2 = await response.json();
-      console.log(message2);
-      setMessage(message2);
-    }
+  // useEffect(() => {
+  //   async function respond() {
+  //     const response = await fetch('http://localhost:3000');
+  //     const message2 = await response.json();
+  //     console.log(message2);
+  //     setMessage(message2);
+  //   }
 
-    respond();
-  }, []);
+  //   respond();
+  // }, []);
   return (
     <>
-      <div>{message}</div>
+      <div>
+        <h1>Hi Everybody!</h1>
+      </div>
     </>
   );
 }
