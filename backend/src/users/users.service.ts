@@ -21,9 +21,14 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return await this.usersRepository.findOne({
+    const user = await this.usersRepository.findOne({
       where: { id },
     });
+
+    if (!user) {
+      throw new NotFoundException('User Not Found');
+    }
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -41,7 +46,7 @@ export class UsersService {
     const user = await this.findOne(id);
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('User Doesnt Exist');
     }
 
     return await this.usersRepository.remove(user);
