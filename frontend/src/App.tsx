@@ -6,19 +6,28 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    async function respond() {
-      const response = await fetch('http://localhost:3000');
-      const message2 = await response.json();
-      setMessage(message2);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000');
+        const result = await response.text();
+        setMessage(result);
+      } catch (error) {
+        console.error('Error fetching data', error);
+      }
+    };
 
-    respond();
+    fetchData();
   }, []);
   return (
     <>
       <div>
         <h1>{message}</h1>
       </div>
+      <form>
+        <input />
+        <input />
+        <button>Send</button>
+      </form>
     </>
   );
 }
