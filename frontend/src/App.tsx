@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Form from './components/Form';
+import { User } from './components/types';
 
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -18,18 +20,30 @@ function App() {
 
     fetchData();
   }, []);
+
+  const handleSubmit = async (formData: User) => {
+    try {
+      const response = await fetch('http://localhost:4000/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error submitting form', error);
+    }
+  };
   return (
     <>
       <div>
         <h1>{message}</h1>
       </div>
-      <form>
-        <input />
-        <input />
-        <button>Send</button>
-      </form>
+      <Form onSubmit={handleSubmit} />
     </>
   );
-}
+};
 
 export default App;
