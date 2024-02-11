@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState, ChangeEvent } from 'react';
-import axios, { AxiosError } from 'axios';
 
 interface CustomError {
   message: string;
@@ -22,23 +22,65 @@ const Registration = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('users/register', formData);
+      const response = await axios.post(
+        'http://localhost:4000/users/register',
+        formData
+      );
+      console.log(response);
       const { token } = response.data;
       localStorage.setItem('token', token);
-    } catch (error: unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.data?.message) {
-            setError({ message: axiosError.response.data.message });
-          } else {
-            setError('Unknown error');
-          }
+        if (error.response) {
+          setError(
+            error.response.data.message ||
+              'An error occurred. Please try again.'
+          );
+        } else if (error.request) {
+          setError('No response received from the server. Please try again.');
         } else {
-          setError('Unknown error');
+          setError('Error in sending the request. Please try again.');
+        }
+      } else {
+        console.error('An error occurred:', error);
+        setError('An error occurred. Please try again.');
+      }
     }
   };
 
-  return <div>Registration</div>;
+  return (
+    <div>
+      <h2>Register</h2>
+      {error && typeof error === 'string' && <p>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          placeholder="Username"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
 };
 
 export default Registration;

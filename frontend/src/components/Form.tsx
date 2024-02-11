@@ -29,8 +29,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     });
   };
 
-  console.log(user);
-
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -53,5 +51,3 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 };
 
 export default Form;
-
-

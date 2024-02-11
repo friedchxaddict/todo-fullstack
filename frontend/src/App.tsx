@@ -3,6 +3,7 @@ import Form from './components/Form';
 import { User } from './components/types';
 
 import './App.css';
+import Registration from './components/Registration';
 
 const App: React.FC = () => {
   const [message, setMessage] = useState('');
@@ -42,6 +43,7 @@ const App: React.FC = () => {
         <h1>{message}</h1>
       </div>
       <Form onSubmit={handleSubmit} />
+      <Registration />
     </>
   );
 };
