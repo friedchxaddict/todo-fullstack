@@ -8,10 +8,12 @@ import {
   Delete,
   ParseIntPipe,
   ValidationPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +23,25 @@ export class UsersController {
   async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     const createdUser = await this.usersService.create(createUserDto);
     return { message: 'User created successfully', user: createdUser };
+  }
+
+  @Post('register')
+  async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+    try {
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
+      const newUser = {
+        username: createUserDto.username,
+        email: createUserDto.email,
+        password: hashedPassword,
+      };
+
+      const createdUser = await this.usersService.create(newUser);
+
+      return createdUser;
+    } catch (error) {
+      throw new BadRequestException('Failed to register user');
+    }
   }
 
   @Get()
