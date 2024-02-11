@@ -22,6 +22,11 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(user);
+
+    setUser({
+      name: '',
+      email: '',
+    });
   };
 
   console.log(user);
@@ -48,3 +53,5 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 };
 
 export default Form;
+
+
