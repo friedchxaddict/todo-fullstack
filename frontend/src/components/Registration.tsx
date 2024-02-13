@@ -50,7 +50,7 @@ const Registration = () => {
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>Registration</h2>
       {error && typeof error === 'string' && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
