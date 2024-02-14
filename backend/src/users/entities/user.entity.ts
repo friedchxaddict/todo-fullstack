@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'users' })
 export class User {
@@ -13,4 +14,8 @@ export class User {
 
   @Column()
   password: string;
+
+  async verifyPassword(plainTextPassword: string): Promise<boolean> {
+    return await bcrypt.compare(plainTextPassword, this.password);
+  }
 }

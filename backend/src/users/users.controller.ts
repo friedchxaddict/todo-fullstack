@@ -13,17 +13,18 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    const createdUser = await this.usersService.create(createUserDto);
-    return { message: 'User created successfully', user: createdUser };
-  }
+  // @Post()
+  // async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+  //   const createdUser = await this.usersService.create(createUserDto);
+  //   return { message: 'User created successfully', user: createdUser };
+  // }
 
   @Post('register')
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
@@ -41,6 +42,17 @@ export class UsersController {
       return createdUser;
     } catch (error) {
       throw new BadRequestException('Failed to register user');
+    }
+  }
+
+  @Post('login')
+  async login(@Body() loginDto: LoginUserDto) {
+    try {
+      const { username, password } = loginDto;
+      const token = await this.usersService.login(username, password);
+      return { token };
+    } catch (error) {
+      throw new BadRequestException('Login Failed');
     }
   }
 

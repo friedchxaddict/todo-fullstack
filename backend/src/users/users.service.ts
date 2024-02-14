@@ -16,6 +16,10 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async findByUsername(username: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { username } });
+  }
+
   async findAll() {
     return await this.usersRepository.find();
   }
@@ -27,6 +31,19 @@ export class UsersService {
 
     if (!user) {
       throw new NotFoundException('User Not Found');
+    }
+    return user;
+  }
+
+  async login(username: string, password: string): Promise<User> {
+    const user = await this.findByUsername(username);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await user.verifyPassword(password);
+    if (!isPasswordValid) {
+      throw new NotFoundException('Invalid Credentials');
     }
     return user;
   }
