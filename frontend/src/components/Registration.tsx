@@ -26,7 +26,7 @@ const Registration = () => {
         'http://localhost:4000/users/register',
         formData
       );
-      console.log(response);
+
       const { token } = response.data;
       localStorage.setItem('token', token);
     } catch (error) {
