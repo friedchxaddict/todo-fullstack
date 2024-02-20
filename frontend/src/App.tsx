@@ -1,56 +1,66 @@
-//import { useState, useEffect } from 'react';
-//import Form from './components/Form';
-//import { User } from './components/types';
+import { useState } from 'react';
+import { User } from './components/types';
+import { useNavigate } from 'react-router-dom';
 
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Registration from './components/Registration';
 import Login from './components/Login';
+import UserProfilePage from './pages/UserProfilePage';
+import axios from 'axios';
+
+interface CustomError {
+  message: string;
+}
 
 const App: React.FC = () => {
-  // const [message, setMessage] = useState('');
+  const [user, setUser] = useState<User | null>(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:4000');
-  //       const result = await response.text();
-  //       setMessage(result);
-  //     } catch (error) {
-  //       console.error('Error fetching data', error);
-  //     }
-  //   };
+  const [error, setError] = useState<CustomError | string | null>(null);
 
-  //   fetchData();
-  // }, []);
+  const navigate = useNavigate();
 
-  // const handleSubmit = async (formData: User) => {
-  //   try {
-  //     const response = await fetch('http://localhost:4000/users', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error('Error submitting form', error);
-  //   }
-  // };
+  const handleLogin = async (formData: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/users/login',
+        formData
+      );
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      setUser(user);
+      navigate('/home');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          setError(
+            error.response.data.message ||
+              'An error occurred. Please try again.'
+          );
+        } else if (error.request) {
+          setError('No response received from the server. Please try again.');
+        } else {
+          setError('Error in sending the request. Please try again.');
+        }
+      } else {
+        console.error('An error occurred:', error);
+        setError('An error occurred. Please try again.');
+      }
+    }
+  };
+
   return (
     <>
       <Router>
         <Routes>
-          {/*<div>
-        <h1>{message}</h1>
-      </div>
-      <Form onSubmit={handleSubmit} />*/}
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home user={user} />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
+          <Route path="/profile" element={<UserProfilePage user={user} />} />
         </Routes>
       </Router>
     </>

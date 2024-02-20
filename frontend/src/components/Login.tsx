@@ -6,7 +6,11 @@ interface CustomError {
   message: string;
 }
 
-const Login = () => {
+interface Props {
+  onLogin: (formdata: { username: string; password: string }) => void;
+}
+
+const Login: React.FC<Props> = ({ onLogin }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -30,6 +34,7 @@ const Login = () => {
       );
       const { token } = response.data;
       localStorage.setItem('token', token);
+      onLogin(formData);
       navigate('/home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
