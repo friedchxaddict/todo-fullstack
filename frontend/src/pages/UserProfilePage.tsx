@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const UserProfilePage = (props) => {
+const UserProfilePage = () => {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem('token');
 
