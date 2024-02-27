@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { User } from '../components/types';
 import axios from 'axios';
 
-const UserProfilePage = () => {
-  const [user, setUser] = useState(null);
+const UserProfilePage = ({ user }: { user: User | null }) => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -13,15 +13,15 @@ const UserProfilePage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUser(response.data);
+        console.log('User data:', response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
-    if (token) {
+    if (token && user) {
       fetchUserData();
     }
-  }, [token]);
+  }, [token, user]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -30,8 +30,8 @@ const UserProfilePage = () => {
   return (
     <div>
       <h2>User Profile</h2>
-      <p>Name: {user}</p>
-      <p>Email: {user}</p>
+      <p>Name: {user.name}</p>
+      <p>Email: {user.email}</p>
     </div>
   );
 };
