@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { User } from './components/types';
-import { useNavigate } from 'react-router-dom';
 
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  useNavigate,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from 'react-router-dom';
 import Home from './components/Home';
 import Registration from './components/Registration';
 import Login from './components/Login';
@@ -59,7 +63,10 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/home" element={<Home user={user} />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/"
+            element={<Login onLogin={handleLogin} navigate={navigate} />}
+          />
           <Route path="/profile" element={<UserProfilePage user={user} />} />
         </Routes>
       </Router>

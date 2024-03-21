@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 interface CustomError {
   message: string;
@@ -8,9 +8,10 @@ interface CustomError {
 
 interface Props {
   onLogin: (formdata: { username: string; password: string }) => void;
+  navigate: (path: string) => void;
 }
 
-const Login: React.FC<Props> = ({ onLogin }) => {
+const Login: React.FC<Props> = ({ onLogin, navigate }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -18,7 +19,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
 
   const [error, setError] = useState<CustomError | string | null>(null);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
