@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   const [error, setError] = useState<CustomError | string | null>(null);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //gonna tackle this issue tomorrow
 
   const handleLogin = async (formData: {
     username: string;
