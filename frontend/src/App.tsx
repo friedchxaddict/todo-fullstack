@@ -2,12 +2,7 @@ import { useState } from 'react';
 import { User } from './components/types';
 
 import './App.css';
-import {
-  useNavigate,
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { useNavigate, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Registration from './components/Registration';
 import Login from './components/Login';
@@ -23,7 +18,7 @@ const App: React.FC = () => {
 
   const [error, setError] = useState<CustomError | string | null>(null);
 
-  const navigate = useNavigate(); //gonna tackle this issue tomorrow
+  const navigate = useNavigate();
 
   const handleLogin = async (formData: {
     username: string;
@@ -59,17 +54,15 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/home" element={<Home user={user} />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route
-            path="/"
-            element={<Login onLogin={handleLogin} navigate={navigate} />}
-          />
-          <Route path="/profile" element={<UserProfilePage user={user} />} />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/home" element={<Home user={user} />} />
+        <Route path="/registration" element={<Registration />} />
+        <Route
+          path="/"
+          element={<Login onLogin={handleLogin} navigate={navigate} />}
+        />
+        <Route path="/profile" element={<UserProfilePage user={user} />} />
+      </Routes>
     </>
   );
 };
