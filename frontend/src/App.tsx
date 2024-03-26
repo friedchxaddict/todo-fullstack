@@ -29,9 +29,10 @@ const App: React.FC = () => {
         'http://localhost:4000/users/login',
         formData
       );
+
       const { token, user: loggedInUser } = response.data;
       localStorage.setItem('token', token);
-      setUser(loggedInUser);
+      setUser(loggedInUser.user);
       navigate('/home');
     } catch (error) {
       if (axios.isAxiosError(error)) {

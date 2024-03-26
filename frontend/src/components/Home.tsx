@@ -10,7 +10,7 @@ const Home: React.FC<HomeProps> = ({ user }) => {
   console.log(user);
   return (
     <div>
-      <h1>Welcome back to your todo list {user.name}</h1>
+      <h1>Welcome back to your todo list {user.username}</h1>
     </div>
   );
 };
