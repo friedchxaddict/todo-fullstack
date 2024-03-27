@@ -30,9 +30,12 @@ const App: React.FC = () => {
         formData
       );
 
-      const { token, user: loggedInUser } = response.data;
+      console.log('Response data:', response.data);
+
+      const { token } = response.data;
+      const loggedInUser = token;
       localStorage.setItem('token', token);
-      setUser(loggedInUser.user);
+      setUser(loggedInUser);
       navigate('/home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
