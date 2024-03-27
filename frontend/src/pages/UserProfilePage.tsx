@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 import { User } from '../components/types';
-import axios from 'axios';
+//import axios from 'axios';
 
 const UserProfilePage = ({ user }: { user: User | null }) => {
-  const token = localStorage.getItem('token');
+  //const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('http://localhost:4000/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log('User data:', response.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    if (token && user) {
-      fetchUserData();
-    }
-  }, [token, user]);
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:4000/user', {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       console.log('User data:', response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching user data:', error);
+  //     }
+  //   };
+  //   if (token && user) {
+  //     fetchUserData();
+  //   }
+  // }, [token, user]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -30,7 +30,7 @@ const UserProfilePage = ({ user }: { user: User | null }) => {
   return (
     <div>
       <h2>User Profile</h2>
-      <p>Name: {user.name}</p>
+      <p>User Name: {user.username}</p>
       <p>Email: {user.email}</p>
     </div>
   );
