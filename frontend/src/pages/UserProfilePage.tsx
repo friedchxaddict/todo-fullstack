@@ -1,27 +1,46 @@
-//import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { User } from '../components/types';
-//import axios from 'axios';
+import axios from 'axios';
 
-const UserProfilePage = ({ user }: { user: User | null }) => {
-  //const token = localStorage.getItem('token');
+interface UserProfilePageProps {
+  user: User | null;
+}
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:4000/user', {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       console.log('User data:', response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching user data:', error);
-  //     }
-  //   };
-  //   if (token && user) {
-  //     fetchUserData();
-  //   }
-  // }, [token, user]);
+const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
+  const token = localStorage.getItem('token');
+  const [isEditing, setIsEditing] = useState(false);
+  const [userData, setUserData] = useState<User | null>(user);
+
+  useEffect(() => {
+    setUserData(user);
+  }, [user]);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      await axios.put(`http://localhost:4000/users/${userData?.id}`, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (userData) {
+      setUserData((prevData: User | null) => ({
+        ...((prevData as User) || {}),
+        [name]: value,
+      }));
+    }
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -30,8 +49,37 @@ const UserProfilePage = ({ user }: { user: User | null }) => {
   return (
     <div>
       <h2>User Profile</h2>
-      <p>User Name: {user.username}</p>
-      <p>Email: {user.email}</p>
+      <p>
+        User Name:{' '}
+        {isEditing ? (
+          <input
+            type="text"
+            name="name"
+            value={userData?.username}
+            onChange={handleChange}
+          />
+        ) : (
+          userData?.username
+        )}
+      </p>
+      <p>
+        Email:{' '}
+        {isEditing ? (
+          <input
+            type="text"
+            name="email"
+            value={userData?.email}
+            onChange={handleChange}
+          />
+        ) : (
+          userData?.email
+        )}
+      </p>
+      {isEditing ? (
+        <button onClick={handleSaveClick}>Save</button>
+      ) : (
+        <button onClick={handleEditClick}>Edit</button>
+      )}
     </div>
   );
 };
