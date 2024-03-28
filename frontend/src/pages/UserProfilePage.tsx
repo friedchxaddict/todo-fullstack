@@ -11,6 +11,8 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState<User | null>(user);
 
+  console.log(userData);
+
   useEffect(() => {
     setUserData(user);
   }, [user]);
@@ -21,11 +23,21 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
 
   const handleSaveClick = async () => {
     try {
-      await axios.put(`http://localhost:4000/users/${userData?.id}`, userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const url = `http://localhost:4000/users/${userData?.id}`;
+      console.log('PUT URL', url);
+      console.log('PUT Data:', userData);
+
+      const response = await axios.put(
+        `http://localhost:4000/users/${userData?.id}`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log('PUT Response:', response.data);
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating user data:', error);
