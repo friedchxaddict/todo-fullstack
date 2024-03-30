@@ -88,7 +88,7 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
         )}
       </p>
       {isEditing ? (
-        <button onClick={handleSaveClick}>Save</button>
+        <button onClick={handleSaveClick}>Save Information</button>
       ) : (
         <button onClick={handleEditClick}>Edit</button>
       )}
