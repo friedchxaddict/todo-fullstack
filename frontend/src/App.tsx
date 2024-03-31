@@ -8,6 +8,7 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import UserProfilePage from './pages/UserProfilePage';
 import axios from 'axios';
+import { Box } from '@chakra-ui/react';
 
 interface CustomError {
   message: string;
@@ -58,15 +59,17 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Routes>
-        <Route path="/home" element={<Home user={user} />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route
-          path="/"
-          element={<Login onLogin={handleLogin} navigate={navigate} />}
-        />
-        <Route path="/profile" element={<UserProfilePage user={user} />} />
-      </Routes>
+      <Box bg="#EFEFEF" minH="100vh">
+        <Routes>
+          <Route path="/home" element={<Home user={user} />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route
+            path="/"
+            element={<Login onLogin={handleLogin} navigate={navigate} />}
+          />
+          <Route path="/profile" element={<UserProfilePage user={user} />} />
+        </Routes>
+      </Box>
     </>
   );
 };

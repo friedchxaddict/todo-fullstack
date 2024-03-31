@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
+import { Heading, Button } from '@chakra-ui/react';
 
 interface CustomError {
   message: string;
@@ -55,7 +56,9 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <Heading as="h2" color="#333333">
+        Login
+      </Heading>
       {error && typeof error === 'string' && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
@@ -75,7 +78,9 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
           autoComplete="current-password"
           required
         />
-        <button type="submit">Login</button>
+        <Button bg="#FFA07A" type="submit">
+          Login
+        </Button>
       </form>
     </div>
   );
