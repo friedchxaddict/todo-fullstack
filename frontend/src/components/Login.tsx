@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
-import { Heading, Button } from '@chakra-ui/react';
+import { Heading, Button, Card } from '@chakra-ui/react';
 
 interface CustomError {
   message: string;
@@ -55,8 +55,14 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
   };
 
   return (
-    <div>
-      <Heading as="h2" color="#333333">
+    <Card
+      bg="#333333"
+      maxW="300px"
+      h="400px"
+      borderColor="#FFA07A"
+      borderWidth="4px"
+      borderRadius="lg">
+      <Heading as="h2" color="#EFEFEF">
         Login
       </Heading>
       {error && typeof error === 'string' && <p>{error}</p>}
@@ -78,11 +84,11 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
           autoComplete="current-password"
           required
         />
-        <Button bg="#FFA07A" type="submit">
+        <Button bg="#FFA07A" type="submit" display="block">
           Login
         </Button>
       </form>
-    </div>
+    </Card>
   );
 };
 
