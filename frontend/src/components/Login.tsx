@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
-import { Heading, Button, Card } from '@chakra-ui/react';
+import { Heading, Button, Card, Input } from '@chakra-ui/react';
 
 interface CustomError {
   message: string;
@@ -67,15 +67,16 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
       </Heading>
       {error && typeof error === 'string' && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
           placeholder="Username"
           required
+          mb={3}
         />
-        <input
+        <Input
           type="password"
           name="password"
           value={formData.password}
@@ -83,8 +84,9 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
           placeholder="Password"
           autoComplete="current-password"
           required
+          mb={3}
         />
-        <Button bg="#FFA07A" type="submit" display="block">
+        <Button bg="#FFA07A" type="submit">
           Login
         </Button>
       </form>
