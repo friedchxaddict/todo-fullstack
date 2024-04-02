@@ -46,6 +46,7 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
         [name]: value,
       }));
     }
+    console.log(userData);
   };
 
   if (!user) {
@@ -60,7 +61,7 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
         {isEditing ? (
           <input
             type="text"
-            name="name"
+            name="username"
             value={userData?.username}
             onChange={handleChange}
           />
