@@ -26,13 +26,11 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
       if (userData && token) {
         const url = `http://localhost:4000/users/${userData?.id}`;
 
-        const response = await axios.put(url, userData, {
+        await axios.patch(url, userData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        console.log('PUT Response:', response.data);
         setIsEditing(false);
       }
     } catch (error) {
