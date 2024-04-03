@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const ChangePassword = ({ userId }) => {
+interface ChangePasswordProps {
+  userId?: number;
+}
+
+const ChangePassword: React.FC<ChangePasswordProps> = ({ userId }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');

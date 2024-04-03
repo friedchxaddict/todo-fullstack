@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User } from '../components/types';
 import axios from 'axios';
+import ChangePassword from '../components/ChangePassword';
 
 interface UserProfilePageProps {
   user: User | null;
@@ -89,12 +90,7 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
       <p>
         Password:{' '}
         {isEditing ? (
-          <input
-            type="password"
-            name="password"
-            value={passwordInputValue}
-            onChange={handleChange}
-          />
+          <ChangePassword userId={userData?.id} />
         ) : (
           <span>********</span>
         )}
