@@ -10,11 +10,15 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
   const token = localStorage.getItem('token');
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState<User | null>(user);
+  const [passwordInputValue, setPasswordInputValue] = useState('');
 
   console.log(userData);
 
   useEffect(() => {
     setUserData(user);
+    setPasswordInputValue(
+      user?.password ? '.'.repeat(user.password.length) : ''
+    );
   }, [user]);
 
   const handleEditClick = () => {
@@ -80,6 +84,19 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
           />
         ) : (
           userData?.email
+        )}
+      </p>
+      <p>
+        Password:{' '}
+        {isEditing ? (
+          <input
+            type="password"
+            name="password"
+            value={passwordInputValue}
+            onChange={handleChange}
+          />
+        ) : (
+          <span>********</span>
         )}
       </p>
       {isEditing ? (
