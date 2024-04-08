@@ -14,6 +14,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
@@ -72,6 +73,37 @@ export class UsersController {
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Patch(':id/change-password')
+  async changePassword(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
+    try {
+      const user = await this.usersService.findOne(id);
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+
+      const isPasswordValid = await bcrypt.compare(
+        updatePasswordDto.currentPassword,
+        user.password,
+      );
+      if (!isPasswordValid) {
+        throw new BadRequestException('Current password is incorrect');
+      }
+
+      const hashedPassword = await bcrypt.hash(
+        updatePasswordDto.newPassword,
+        10,
+      );
+      user.password = hashedPassword;
+
+      return this.usersService.update(id, user);
+    } catch (error) {
+      throw new BadRequestException('Failed to change password');
+    }
   }
 
   @Delete(':id')
