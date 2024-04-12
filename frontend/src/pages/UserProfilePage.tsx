@@ -91,7 +91,7 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
   };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Loading....</div>;
   }
 
   return (
