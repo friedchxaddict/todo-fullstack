@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User } from '../components/types';
 import axios from 'axios';
-import * as bcrypt from 'bcrypt';
 
 interface UserProfilePageProps {
   user: User | null;
@@ -44,32 +43,24 @@ const UserProfilePage: React.FC<UserProfilePageProps> = ({ user }) => {
             setError('New passwords do not match.');
             return;
           }
-          if (!userData.password) {
-            setError('Current password is incorrect.');
-            return;
-          }
-          const isPasswordValid = await bcrypt.compare(
-            currentPassword,
-            userData.password
-          );
-          if (!isPasswordValid) {
-            setError('Current password is incorrect.');
-            return;
-          }
 
-          userData.password = await bcrypt.hash(newPassword, 10);
+          // You can send plain passwords to the server
+          const userDataToSend = {
+            ...userData,
+            password: newPassword, // Send plain password
+          };
+
+          const url = `http://localhost:4000/users/${userData?.id}`;
+
+          await axios.patch(url, userDataToSend, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setIsEditing(false);
+          setError('');
         }
-
-        const url = `http://localhost:4000/users/${userData?.id}`;
-
-        await axios.patch(url, userData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setIsEditing(false);
-        setError('');
       }
     } catch (error) {
       console.error('Error updating user data:', error);
