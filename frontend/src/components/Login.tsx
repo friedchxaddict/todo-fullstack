@@ -91,9 +91,7 @@ const Login: React.FC<Props> = ({ onLogin, navigate }) => {
             required
             mb={3}
           />
-          <Button bg="#FFA07A" type="submit">
-            Login
-          </Button>
+          <Button /*bg="#FFA07A"*/ type="submit">Login</Button>
         </form>
       </Card>
     </Flex>
